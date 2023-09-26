@@ -4,6 +4,26 @@
 #include "mem.h"
 #include <string.h>
 #include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+
+#define LOG_INVALID_LTERM                                              \
+        fprintf(                                                       \
+            stderr,                                                    \
+            "\033[91m"                                                 \
+            "lam fatal error:\n================"                       \
+            "\033[0m"                                                  \
+            "\n\tInvalid term form.\n"                                 \
+                "file: %s"                                             \
+                ":%d\n"                                                \
+                "func: %s\n",                                          \
+                __FILE__,                                              \
+                __LINE__,                                              \
+                __func__)
+
+#define LOG_INVALID_LTERM_AND_EXIT                                     \
+    LOG_INVALID_LTERM; exit(EXIT_FAILURE)
 
 typedef struct { const char* s; size_t len; } Lstr;
 
