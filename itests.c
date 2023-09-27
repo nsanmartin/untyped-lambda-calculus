@@ -18,6 +18,9 @@ void test_parse_impl(const char* s, const char* out, const char* expected) {
 #define test_parse(S,R)                                                 \
     test_parse_impl(S, parse_string( S "\n", lam_term_to_str_less_paren).s, R);
 
+#define test_eval(S,R)                                                 \
+    test_parse_impl(S, eval_string( S "\n", lam_term_to_str_less_paren).s, R);
+
 int main (void) {
     puts("Many parents");
     test_parse_many_paren("x (y z)", "(x (y z))");
@@ -52,4 +55,16 @@ int main (void) {
         "\\x.y (\\x.x) ((\\x.y) (\\x.y))"
     );
     test_parse("\\x.y (\\z.x)", "\\x.y (\\z.x)");
+
+
+    puts("eval");
+    test_eval("x", "x");
+    test_eval("x x", "x x");
+    test_eval("x (y z)", "x (y z)");
+    test_eval("x x x x", "x x x x");
+    test_eval("x (x x) x", "x (x x) x");
+    test_eval("(\\x.x x)", "\\x.x x");
+    test_eval("(\\x.x) (\\x.y)", "\\x.y");
+    test_eval("(\\x.x) (\\y.y) z", "z");
+    test_eval("x ((\\x.x) (\\y.y))", "z");
 }
