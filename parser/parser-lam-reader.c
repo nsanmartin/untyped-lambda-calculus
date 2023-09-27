@@ -33,8 +33,8 @@ void eval_print(const Lterm t[static 1]) {
      lam_print_term_less_paren(v);
 }
 
-//void (*_lam_print_term_fn)(const Lterm t[static 1]) = eval_print;
-void (*_lam_print_term_fn)(const Lterm t[static 1]) = lam_print_term_less_paren;
+void (*_lam_print_term_fn)(const Lterm t[static 1]) = eval_print;
+//void (*_lam_print_term_fn)(const Lterm t[static 1]) = lam_print_term_less_paren;
 
 /* This is he function used by the parser each time an expresion is read. See parser.y */
 int parser_read_expression(Lterm t[static 1]) {

@@ -14,7 +14,11 @@ Lterm* lam_eval(const Lterm t[static 1]) {
         case Lvartag: return lam_clone(t);
         case Labstag: return lam_clone(t);
         case Lapptag: {
-            return lam_eval_app(&t->app);
+            if (t->app.fun->tag == Labstag) {
+                return lam_eval_app(&t->app);
+            } else {
+                return lam_clone(t);
+            }
         }
         default: LOG_INVALID_LTERM_AND_EXIT ;
     }
