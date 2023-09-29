@@ -74,8 +74,7 @@ int main (void) {
     test_eval_more_paren("x (x x) x", "((x (x x)) x)");
     test_eval_more_paren("(\\x.x) (\\x.y)", "(\\x.y)");
     test_eval_more_paren("(\\x.x) (\\y.y) z", "z");
-    test_eval_more_paren("x ((\\x.x) (\\y.y))", "(x ((\\x.x) (\\y.y)))");
-    //test_eval_more_paren("x ((\\x.x) (\\y.y))", "x ((\\x.x) (\\y.y))");
+    test_eval_more_paren("x ((\\x.x) (\\y.y))", "(x (\\y.y))");
 
     puts("eval less paren");
     test_eval("x", "x");
@@ -86,5 +85,22 @@ int main (void) {
     test_eval("(\\x.x x)", "\\x.x x");
     test_eval("(\\x.x) (\\x.y)", "\\x.y");
     test_eval("(\\x.x) (\\y.y) z", "z");
-    test_eval("x ((\\x.x) (\\y.y))", "x ((\\x.x) \\y.y)");
+    test_eval("x ((\\x.x) (\\y.y))", "x (\\y.y)");
+    test_eval(
+        "(\\z.x z) ((\\x.x) (\\y.y))",
+        "x (\\y.y)"
+    );
+    test_eval(
+        "(\\x.x t) ((\\y.y) (\\z.z))",
+        "t"
+    );
+    test_eval(
+        "(\\z.z x) ((\\x.x) (\\y.y))",
+        "x"
+    );
+    test_eval( "(\\z.\\x. z) y", "\\x.y");
+    test_eval(
+        "(\\z.\\x. z) x",
+        "\\x.?"
+    );
 }

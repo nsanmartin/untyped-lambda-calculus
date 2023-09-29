@@ -428,3 +428,13 @@ Lstr lam_term_to_str_less_paren(const Lterm t[static 1]) {
         default: LOG_INVALID_LTERM_AND_EXIT ;
     }
 }
+
+bool lam_normal_form(const Lterm t[static 1]) {
+    return t->tag == Lvartag
+        || (t->tag == Labstag && lam_normal_form(t->abs.body))
+        || (t->tag == Lapptag
+                && (t->app.fun->tag != Labstag)
+                && lam_normal_form(t->app.fun)
+                && lam_normal_form(t->app.param))
+        ;
+}

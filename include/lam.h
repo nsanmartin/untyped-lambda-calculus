@@ -123,4 +123,5 @@ lam_substitute(const Lterm t[static 1], Lstr x, const Lterm s[static 1]) ;
 void lam_print_term(const Lterm t[static 1]) ;
 void lam_print_term_less_paren(const Lterm t[static 1]) ;
 
+bool lam_normal_form(const Lterm t[static 1]) ;
 #endif // __LAM_H_
