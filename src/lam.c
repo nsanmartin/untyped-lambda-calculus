@@ -384,15 +384,34 @@ Lstr lam_term_to_str_less_paren(const Lterm t[static 1]) {
             size_t nparen = 0;
             const char* fmt = "%s %s";
 
-            if (t->app.fun->tag == Labstag && t->app.param->tag != Lvartag) {
+            // "%s %s":
+            // app var
+            // var var
+
+            // "(%s) (%s)"
+            // abs app
+
+            // "%s (%s)"
+            // var app
+            // var abs
+            // app abs
+            // app app
+
+            // "(%s) %s"
+            // abs abs
+            // abs var
+
+            if (t->app.fun->tag != Labstag && t->app.param->tag == Lvartag) {
+            } else if (t->app.fun->tag == Labstag && t->app.param->tag == Lapptag) {
                 nparen = 4;
                 fmt = "(%s) (%s)";
-            } else if (t->app.fun->tag == Labstag) {
-                nparen = 2;
-                fmt = "(%s) %s";
-            } else if (t->app.param->tag != Lvartag) {
+            } else if ((t->app.fun->tag == Lvartag && t->app.param->tag != Lvartag)
+                    || (t->app.fun->tag == Lapptag && t->app.param->tag != Lvartag)){
                 nparen = 2;
                 fmt = "%s (%s)";
+            } else if ((t->app.fun->tag == Labstag && t->app.param->tag == Labstag)) {
+                nparen = 2;
+                fmt = "(%s) %s";
             }
 
             size_t lenrv = 1 + lam_strlen(fstr) + lam_strlen(pstr) + 1 + nparen;
