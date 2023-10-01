@@ -18,7 +18,7 @@
     yylval.sval = text;
     return VAR;
 }
-"\n"                    { return EOL; }
+[\n;]                    { return EOL; }
 
 %%
 

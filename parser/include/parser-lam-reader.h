@@ -33,4 +33,5 @@ void set_input_string(const char* in);
 void end_lexical_scan(void);
 
 int parser_read_expression(Lterm t[static 1]) ;
+void parser_set_repl_fn(void) ;
 #endif
