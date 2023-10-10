@@ -302,19 +302,19 @@ Lstr lam_term_to_str_more_paren(const Lterm t[static 1]) {
             Lstr bstr = lam_term_to_str_more_paren(t->abs.body);
             if (!bstr.s) {
                 perror("malloc returned null.");
-                return LEMPTY_STR;
+                return LEMPTY_STR();
             }
             size_t len = lam_strlen(bstr);
             size_t lenrv = 1 + len + 4 + lam_strlen(t->abs.vname);
             char* buf = lam_malloc(sizeof(char) * lenrv);;
             if (!buf) {
                 perror("malloc returned null.");
-                return LEMPTY_STR;
+                return LEMPTY_STR();
             }
             size_t n = snprintf(buf, lenrv, "(\\%s.%s)", t->abs.vname.s, bstr.s);
             if (n >= lenrv) {
                 perror("snprintf trucated string.");
-                return LEMPTY_STR;
+                return LEMPTY_STR();
             }
             return lam_str(buf);
         }
@@ -322,21 +322,21 @@ Lstr lam_term_to_str_more_paren(const Lterm t[static 1]) {
             Lstr fstr = lam_term_to_str_more_paren(t->app.fun);
             if (!fstr.s) {
                 perror("malloc returned null.");
-                return LEMPTY_STR;
+                return LEMPTY_STR();
             }
             Lstr pstr = lam_term_to_str_more_paren(t->app.param);
             if (!pstr.s) {
                 perror("malloc returned null.");
-                return LEMPTY_STR;
+                return LEMPTY_STR();
             }
 
             size_t lenrv = 1 + lam_strlen(fstr) + lam_strlen(pstr) + 3;
             char* buf = lam_malloc(sizeof(char) * lenrv);
-            if (!buf) { return LEMPTY_STR; }
+            if (!buf) { return LEMPTY_STR(); }
             size_t n = snprintf(buf, lenrv, "(%s %s)", fstr.s, pstr.s);
             if (n >= lenrv) {
                 perror("snprintf trucated string.");
-                return LEMPTY_STR;
+                return LEMPTY_STR();
             }
             return lam_str(buf);
         }
@@ -353,19 +353,19 @@ Lstr lam_term_to_str_less_paren(const Lterm t[static 1]) {
             Lstr bstr = lam_term_to_str_less_paren(t->abs.body);
             if (!bstr.s) {
                 perror("malloc returned null.");
-                return LEMPTY_STR;
+                return LEMPTY_STR();
             }
             size_t len = lam_strlen(bstr);
             size_t lenrv = 1 + len + 2 + lam_strlen(t->abs.vname);
             char* buf = lam_malloc(sizeof(char) * lenrv);;
             if (!buf) {
                 perror("malloc returned null.");
-                return LEMPTY_STR;
+                return LEMPTY_STR();
             }
             size_t n = snprintf(buf, lenrv, "\\%s.%s", t->abs.vname.s, bstr.s);
             if (n >= lenrv) {
                 perror("snprintf trucated string.");
-                return LEMPTY_STR;
+                return LEMPTY_STR();
             }
             return lam_str(buf);
         }
@@ -373,12 +373,12 @@ Lstr lam_term_to_str_less_paren(const Lterm t[static 1]) {
             Lstr fstr = lam_term_to_str_less_paren(t->app.fun);
             if (!fstr.s) {
                 perror("malloc returned null.");
-                return LEMPTY_STR;
+                return LEMPTY_STR();
             }
             Lstr pstr = lam_term_to_str_less_paren(t->app.param);
             if (!pstr.s) {
                 perror("malloc returned null.");
-                return LEMPTY_STR;
+                return LEMPTY_STR();
             }
 
             size_t nparen = 0;
@@ -416,11 +416,11 @@ Lstr lam_term_to_str_less_paren(const Lterm t[static 1]) {
 
             size_t lenrv = 1 + lam_strlen(fstr) + lam_strlen(pstr) + 1 + nparen;
             char* buf = lam_malloc(sizeof(char) * lenrv);
-            if (!buf) { return LEMPTY_STR; }
+            if (!buf) { return LEMPTY_STR(); }
             size_t n = snprintf(buf, lenrv, fmt, fstr.s, pstr.s);
             if (n >= lenrv) {
                 perror("snprintf trucated string.");
-                return LEMPTY_STR;
+                return LEMPTY_STR();
             }
             return lam_str(buf);
             

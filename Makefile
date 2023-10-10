@@ -65,7 +65,7 @@ $(FLEX_OBJ): $(FLEX_SRC)
 
 
 tags: $(LAM_HEADERS) $(LAM_SRCS) $(PARSER_DIR) utests.c itests.c
-	universal-ctags -R .
+	ctags -R .
 
 cscope:
 	cscope -b -k -R
