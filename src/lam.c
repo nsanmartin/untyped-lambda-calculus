@@ -178,21 +178,21 @@ lam_substitute(const Lterm t[static 1], Lstr x, const Lterm s[static 1]) {
             }
         }
         case Labstag: {
-            if (!lam_str_eq(t->abs.vname, x)
-                && lam_is_var_free_in(t->abs.body, x)) {
+            if (lam_is_var_free_in(t,x)) {
 
-                const Lterm* r = s;
-                if (lam_is_var_free_in(s, x)) {
-                    r = lam_clone(r);
-                    if (!r) { return 0x0; }
-                    Lstr fresh_name = lam_get_fresh_var_name(r);
+                Lterm* u = (Lterm*)t;
+                if (lam_is_var_free_in(s, t->abs.vname)) {
+                    u = lam_clone(u);
+                    if (!u) { return 0x0; }
+                    Lstr fresh_name = lam_get_fresh_var_name(u);
                     if (lam_str_null(fresh_name)) { return 0x0; }
-                    lam_rename_var((Lterm*)r, t->abs.vname, fresh_name);
+                    lam_rename_var(u->abs.body, u->abs.vname, fresh_name);
+					u->abs.vname = fresh_name;
                 }
 
-                Lterm* subst = lam_substitute(t->abs.body, x, r);
+                Lterm* subst = lam_substitute(u->abs.body, x, s);
                 if (!subst) { return 0x0; }
-                Lstr vn = t->abs.vname;
+                Lstr vn = u->abs.vname;
                 if (lam_str_null(vn)) { return 0x0; }
                 Lterm* rv = lam_malloc(sizeof (*rv));
                 if (!rv) { return 0x0; }

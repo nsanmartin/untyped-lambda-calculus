@@ -119,5 +119,5 @@ int main (void) {
     test_eval_convention( "(\\x.x t) ((\\y.y) (\\z.z));", "t");
     test_eval_convention( "(\\z.z x) ((\\x.x) (\\y.y));", "x");
     test_eval_convention( "(\\z.\\x. z) y;", "\\x.y");
-    test_eval_convention( "(\\z.\\x. z) x;", "\\x.?");
+    test_eval_convention( "(\\z.\\x. z) x;", "\\#.x");
 }
